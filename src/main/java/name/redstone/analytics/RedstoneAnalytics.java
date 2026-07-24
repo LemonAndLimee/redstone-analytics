@@ -1,23 +1,14 @@
 package name.redstone.analytics;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.ModInitializer;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 
 import org.apache.logging.log4j.core.jmx.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.chat.Component;
 
 public class RedstoneAnalytics implements ModInitializer {
     public static final String MOD_ID = "redstone-analytics";
@@ -39,7 +30,7 @@ public class RedstoneAnalytics implements ModInitializer {
             (
                 (dispatcher, registryAccess, environment) ->
                 {
-                    helloWorldCommand(dispatcher);
+                    ModCommands.register(dispatcher);
                 }
             )
         );
@@ -47,27 +38,5 @@ public class RedstoneAnalytics implements ModInitializer {
 
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-    }
-
-    private static void helloWorldCommand(CommandDispatcher<CommandSourceStack> dispatcher)
-    {
-        dispatcher.register(
-            Commands.literal("hello_world")
-                .requires(source -> source.hasPermission(2))
-                .executes(RedstoneAnalytics::executeHelloWorld)
-        );
-    }
-
-    private static int executeHelloWorld(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException
-    {
-        CommandSourceStack source = ctx.getSource();
-        ServerPlayer player = source.getPlayerOrException();
-
-        source.sendSuccess(
-            () -> Component.literal("Hello world!").withStyle(ChatFormatting.GREEN),
-            false
-        );
-
-        return 1;
     }
 }
