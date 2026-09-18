@@ -14,7 +14,7 @@ public class ModCommands
                 .then(
                     Commands.literal("set")
                     .then(Commands.argument("name", StringArgumentType.word()).executes(
-                        SetCommand::executeSet
+                        SetUnsetCommands::executeSet
                     ))
                 )
                 .then(
@@ -29,11 +29,17 @@ public class ModCommands
                 .then(
                     Commands.literal("unset")
                     .then(Commands.argument("name", StringArgumentType.word()).executes(
-                        UnsetCommand::executeUnset
+                        SetUnsetCommands::executeUnset
                     ))
                 )
                 .then(
                     Commands.literal("clear").executes(ClearCommand::executeClear)
+                )
+                .then(
+                    Commands.literal("start").executes(StartStopCommands::executeStart)
+                )
+                .then(
+                    Commands.literal("stop").executes(StartStopCommands::executeStop)
                 )
         );
     }

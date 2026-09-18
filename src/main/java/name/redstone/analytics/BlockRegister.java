@@ -32,6 +32,17 @@ public class BlockRegister
     {
         REGISTER.remove(name);
     }
+    public static void updateEntry(String name, BlockState newState)
+    {
+        BlockInfo oldEntry = REGISTER.get(name);
+        BlockPos pos = oldEntry.position;
+
+        BlockInfo newEntry = new BlockInfo();
+        newEntry.position = pos;
+        newEntry.lastState = newState;
+
+        REGISTER.replace(name, newEntry);
+    }
     public static Set<String> getKeys()
     {
         return REGISTER.keySet();

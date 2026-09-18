@@ -2,7 +2,9 @@ package name.redstone.analytics;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 import org.apache.logging.log4j.core.jmx.Server;
 import org.slf4j.Logger;
@@ -33,6 +35,14 @@ public class RedstoneAnalytics implements ModInitializer {
                     ModCommands.register(dispatcher);
                 }
             )
+        );
+
+        ServerTickEvents.END_SERVER_TICK.register(
+            server ->
+            {
+                Level level = server.overworld();
+                BlockMonitor.checkBlocks(level);
+            }
         );
     }
 
